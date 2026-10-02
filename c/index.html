@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- O código fica só no #fragmento (o navegador nunca manda o fragmento ao servidor). Página sem nada externo. -->
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; script-src 'unsafe-inline'; img-src data:; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#0A0A0C">
+<title>Copiar código · Kaptor</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%230A0A0C'/%3E%3Cg fill='none' stroke='%23D0142C' stroke-width='6.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21 17V47'/%3E%3Cpath d='M44 17L29 32L44 47'/%3E%3C/g%3E%3Ccircle cx='39.5' cy='32' r='3.6' fill='%23D0142C'/%3E%3C/svg%3E">
+<style>
+  :root {
+    --bg-top: #FAF8F8; --bg-bottom: #EEE8E9; --card: #FFFFFF; --line: rgba(20,17,20,.10);
+    --ink: #141114; --muted: #5E5559; --accent: #B3122A; --action: #B3122A; --action-deep: #8E0F1F;
+    --ok: #157A4D; --logo-bg: #FFFFFF; --logo-k: #B3122A; --logo-edge: rgba(179,18,42,.25);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg-top: #0A0A0C; --bg-bottom: #141418; --card: #141418; --line: rgba(255,255,255,.10);
+      --ink: #F2F1F3; --muted: #A8A6AD; --accent: #EC4A5F; --action: #D0142C; --action-deep: #8E0F1F;
+      --ok: #4FD394; --logo-bg: #0A0A0C; --logo-k: #D0142C; --logo-edge: rgba(208,20,44,.35);
+      color-scheme: dark;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; min-height: 100dvh; display: grid; place-items: center; padding: 24px 16px;
+    color: var(--ink); background: linear-gradient(var(--bg-top), var(--bg-bottom)); background-color: var(--bg-top);
+    font: 16px/1.55 "Segoe UI Variable Text", system-ui, -apple-system, Roboto, sans-serif;
+  }
+  main { width: 100%; max-width: 420px; text-align: center; }
+  .logo { width: 56px; height: 56px; }
+  h1 { font: 600 24px/1.25 "Segoe UI Variable Display", system-ui, sans-serif; margin: 14px 0 6px; }
+  p { margin: 0; color: var(--muted); }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 26px 20px; margin: 22px 0 14px; }
+  .code {
+    font: 700 clamp(40px, 13vw, 56px)/1.1 ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+    letter-spacing: .14em; padding-left: .14em; font-variant-numeric: tabular-nums;
+    user-select: all; -webkit-user-select: all; cursor: text; margin: 0 0 20px; color: var(--ink);
+  }
+  button {
+    width: 100%; min-height: 54px; border: 0; border-radius: 999px; cursor: pointer;
+    font: 600 17px/1 system-ui, sans-serif; color: #fff; background: linear-gradient(135deg, var(--action), var(--action-deep));
+    transition: transform .15s;
+  }
+  button:active { transform: scale(.97); }
+  button:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+  button.done { background: var(--ok); }
+  .status { min-height: 1.6em; margin-top: 12px; font-size: 15px; }
+  .status.ok { color: var(--ok); font-weight: 600; }
+  .hint { font-size: 14px; }
+  .bad .code, .bad button { display: none; }
+  @media (prefers-reduced-motion: reduce) { button { transition: none; } }
+</style>
+</head>
+<body>
+<main id="app">
+  <svg class="logo" viewBox="0 0 64 64" aria-hidden="true"><rect x=".75" y=".75" width="62.5" height="62.5" rx="17.25" style="fill:var(--logo-bg);stroke:var(--logo-edge)" stroke-width="1.5"/><g fill="none" style="stroke:var(--logo-k)" stroke-width="6.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 17V47"/><path d="M44 17L29 32L44 47"/></g><circle cx="39.5" cy="32" r="3.6" style="fill:var(--logo-k)"/></svg>
+  <h1 id="title">Seu código do Kaptor</h1>
+  <p id="sub">Copie e cole no app para continuar.</p>
+  <div class="card" id="card">
+    <div class="code" id="code" aria-live="polite">------</div>
+    <button type="button" id="copy">Copiar código</button>
+    <div class="status" id="status" role="status" aria-live="polite"></div>
+  </div>
+  <p class="hint">O código vale por 10 minutos. Não passe para ninguém: a equipe do Kaptor nunca pede o seu código.</p>
+</main>
+<script>
+(function () {
+  "use strict";
+  var raw = (location.hash || "").replace(/^#/, "");
+  try { raw = decodeURIComponent(raw); } catch (e) { raw = ""; }
+  raw = raw.trim();
+  var codeEl = document.getElementById("code");
+  var btn = document.getElementById("copy");
+  var status = document.getElementById("status");
+
+  if (!/^\d{6}$/.test(raw)) {
+    document.getElementById("app").classList.add("bad");
+    document.getElementById("title").textContent = "Link incompleto";
+    document.getElementById("sub").textContent = "Não achei um código de 6 números neste link.";
+    status.textContent = "Abra de novo o link do e-mail ou digite o código direto no app.";
+    return;
+  }
+
+  var code = raw;
+  codeEl.textContent = code;
+  document.title = "Código " + code + " · Kaptor";
+
+  function ok() {
+    btn.textContent = "Copiado!";
+    btn.classList.add("done");
+    status.className = "status ok";
+    status.textContent = "Agora é só colar no Kaptor.";
+  }
+  function blocked() {
+    status.className = "status";
+    status.textContent = "Não deu para copiar sozinho. Toque e segure o código para selecionar e copiar.";
+  }
+  // Plano B para navegadores sem a API de área de transferência: seleciona e usa execCommand.
+  function legacyCopy() {
+    try {
+      var range = document.createRange();
+      range.selectNodeContents(codeEl);
+      var sel = window.getSelection();
+      sel.removeAllRanges();
+      sel.addRange(range);
+      return document.execCommand && document.execCommand("copy");
+    } catch (e) { return false; }
+  }
+  function copy(fromUser) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(code).then(ok, function () {
+        if (fromUser && legacyCopy()) ok(); else if (fromUser) blocked();
+      });
+    }
+    if (fromUser) { if (legacyCopy()) ok(); else blocked(); }
+    return Promise.resolve();
+  }
+
+  btn.addEventListener("click", function () { copy(true); });
+  // Tentativa automática ao abrir (alguns navegadores só deixam com um toque; aí o botão resolve).
+  copy(false);
+})();
+</script>
+</body>
+</html>
