@@ -146,9 +146,10 @@
     <h2 id="hefesto">6. Assistente Hefesto (IA)</h2>
     <p>O Hefesto é o assistente com inteligência artificial do Kaptor. Quando você conversa com ele:</p>
     <ul>
-      <li>As suas <b>mensagens</b> (as mais recentes da conversa) e um <b>contexto técnico do app</b> (tela aberta, versão do Android, marca do aparelho, se é emulador, permissões que faltam, situação do Shizuku, plano e validade, se há treino ativo, nome do jogo e versão do app) passam pelo nosso servidor e são enviados ao <b>Google Gemini</b> para gerar a resposta. O Gemini pode fazer pesquisas no Google para responder. O app não manda o seu e-mail nem os seus dados de login nessa conversa.</li>
-      <li><b>As conversas não são guardadas nos servidores do Kaptor.</b> O Google trata o conteúdo enviado de acordo com os termos dele para a API do Gemini.</li>
-      <li>O Hefesto guarda um <b>perfil de estilo</b> pequeno (até 4 KB) sobre como você prefere as respostas: tamanho, tom, uso de emoji, nível técnico, como gosta de ser chamado, tipo de aparelho e jogos. Você pode <b>ver e apagar</b> esse perfil dentro do app, e ele é apagado junto com a conta.</li>
+      <li>As suas <b>mensagens</b> (as mais recentes da conversa) e um <b>contexto técnico do app</b> (tela aberta, versão do Android, marca do aparelho, se é emulador, permissões que faltam, situação do Shizuku, plano e validade, se há treino ativo, nome do jogo e versão do app) passam pelo nosso servidor e são enviados a um provedor de IA para gerar a resposta: <b>Groq</b> (modelos abertos), com <b>Mistral</b> e <b>Google Gemini</b> como reserva. Se você ligar a pesquisa na web, o provedor pode pesquisar na internet para responder. Fotos, prints e PDFs que você anexar são enviados só para gerar aquela resposta e <b>não são guardados</b>. O app não manda o seu e-mail nem os seus dados de login nessa conversa.</li>
+      <li><b>As conversas não são guardadas nos servidores do Kaptor.</b> Cada provedor trata o conteúdo enviado de acordo com os termos da própria API.</li>
+      <li>O Hefesto guarda o <b>Cérebro do Hefesto</b>: um mapa pequeno (até 16 KB) do que ele aprendeu sobre você para ajudar melhor, como estilo das respostas, aparelho, jogos, preferências e problemas já resolvidos. Ele não guarda e-mail, telefone, documentos, endereço, links nem dados de pagamento. Você pode <b>ver cada item, apagar um por um ou apagar tudo</b> dentro do app, e ele é apagado junto com a conta.</li>
+      <li>Para mostrar o ícone dos sites nas fontes das respostas, o app envia <b>só o domínio</b> do site (por exemplo, github.com, nunca o link completo) ao serviço de ícones do Google.</li>
       <li>Evite escrever dados sensíveis (senhas, documentos, dados de cartão) nas mensagens.</li>
     </ul>
 
@@ -172,7 +173,8 @@
     <ul>
       <li><b>Supabase</b>: hospedagem do servidor, banco de dados, autenticação e armazenamento da foto de perfil.</li>
       <li><b>Mercado Pago</b>: pagamentos (Pix, cartão e boleto).</li>
-      <li><b>Google</b>: login com Google, o modelo de IA Gemini (assistente Hefesto) e o YouTube (vídeos de ajuda).</li>
+      <li><b>Groq</b> e <b>Mistral</b>: modelos de IA do assistente Hefesto.</li>
+      <li><b>Google</b>: login com Google, o modelo de IA Gemini (reserva do Hefesto), o YouTube (vídeos de ajuda) e os ícones dos sites nas fontes.</li>
       <li><b>Resend</b>: envio dos e-mails com códigos.</li>
     </ul>
     <p>Também podemos informar dados a autoridades quando a lei ou uma ordem judicial exigir.</p>
@@ -188,7 +190,7 @@
           <tr><td>Conta, perfil, foto e preferências</td><td>Enquanto a conta existir</td></tr>
           <tr><td>Licenças, aparelhos e sessões de farm</td><td>Enquanto a conta existir; são apagados quando você exclui a conta</td></tr>
           <tr><td>Registros de pagamento (e-mail, plano, valor, situação e número do pagamento)</td><td>5 anos, por obrigação fiscal (LGPD, art. 16, I). Ao excluir a conta, ficam desligados dela e são apagados depois desse prazo</td></tr>
-          <tr><td>Perfil de estilo do Hefesto</td><td>Até você apagar no app ou excluir a conta</td></tr>
+          <tr><td>Cérebro do Hefesto</td><td>Até você apagar no app ou excluir a conta</td></tr>
           <tr><td>Conversas com o Hefesto</td><td>Não são guardadas pelo Kaptor</td></tr>
           <tr><td>Códigos por e-mail</td><td>Valem 10 minutos (guardados só como hash)</td></tr>
           <tr><td>Relatórios de erro</td><td>Até 30 dias; ao excluir a conta, deixam de ser ligados a ela</td></tr>
