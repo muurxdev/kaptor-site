@@ -83,7 +83,7 @@
 
     <h3>2.3 Aparelho e licença</h3>
     <ul>
-      <li><b>Identificador do aparelho</b>: um código criado pelo app a partir do identificador do Android (Android ID) misturado com o nome do app e embaralhado (SHA-256). Não é o IMEI, nem o número de telefone, nem o número de série. Ele serve para aplicar o limite de aparelhos do seu plano, controlar a cota de farm por aparelho e permitir o teste grátis uma vez só.</li>
+      <li><b>Identificador do aparelho</b>: um código criado pelo app a partir do identificador do Android (Android ID) misturado com o nome do app e embaralhado (SHA-256). Não é o IMEI, nem o número de telefone, nem o número de série. Ele serve para aplicar o limite de aparelhos do seu plano, controlar a cota de farm por aparelho e permitir o test drive (e o antigo teste grátis) uma vez só.</li>
       <li>Se o aparelho é <b>celular ou emulador</b> de PC, e quando ele foi visto pela última vez.</li>
       <li>Dados da <b>licença</b>: plano, data de início, validade e quantidade de aparelhos.</li>
     </ul>
@@ -121,6 +121,7 @@
       <li>Os <b>prints da tela</b> usados para reconhecer as telas do jogo e, se você ligar essa opção, os prints da tela de fim salvos como registro.</li>
       <li>O <b>histórico de farm com prints automáticos</b>: o Kaptor tira prints sozinho durante o farm (entrada no jogo, marcos, pausas e fim). Eles ficam apenas no seu aparelho, não são enviados aos nossos servidores nem vinculados à sua conta, e são apagados quando você sai da conta, limpa o histórico ou quando passam dos limites que você escolheu (por padrão, 60 farms ou 300 MB).</li>
       <li>As configurações do farm automático e uma cópia da foto de perfil.</li>
+      <li><b>Cartões salvos:</b> o número, a validade e o código de segurança do cartão ficam guardados pelo Mercado Pago, não pelo Kaptor; o Kaptor guarda apenas a sua referência de cliente no Mercado Pago, e você pode remover os cartões quando quiser em Conta › Cartões salvos.</li>
       <li><b>Backup na nuvem (planos Pro e Max):</b> com o backup ligado, seus treinos (.kaptor) vão só para um espaço privado da sua conta no servidor do Kaptor; ninguém mais tem acesso, e você pode apagar da nuvem quando quiser.</li>
       <li>A <b>Biblioteca do Hefesto</b> (conversas, arquivos e áudios) fica só neste aparelho; nada disso é enviado ao servidor, e sair da conta apaga tudo.</li>
     </ul>
@@ -170,7 +171,7 @@
           <tr><td>Licença, limite de aparelhos, horários e cota do farm, relatório</td><td>Execução de contrato</td></tr>
           <tr><td>Processar pagamentos e reembolsos</td><td>Execução de contrato e cumprimento de obrigação legal</td></tr>
           <tr><td>Responder no assistente Hefesto e lembrar o seu estilo</td><td>Execução de contrato (recurso que você escolhe usar)</td></tr>
-          <tr><td>Relatórios de erro, limites por IP, impedir teste grátis repetido</td><td>Legítimo interesse (segurança e prevenção de fraude)</td></tr>
+          <tr><td>Relatórios de erro, limites por IP, impedir test drive repetido</td><td>Legítimo interesse (segurança e prevenção de fraude)</td></tr>
           <tr><td>Atender pedidos e exercer ou defender direitos</td><td>Exercício regular de direitos</td></tr>
         </tbody>
       </table>
@@ -203,7 +204,7 @@
           <tr><td>Códigos por e-mail</td><td>Valem 10 minutos (guardados só como hash)</td></tr>
           <tr><td>Relatórios de erro</td><td>Até 30 dias; ao excluir a conta, deixam de ser ligados a ela</td></tr>
           <tr><td>Contadores de limite por IP</td><td>Até 2 dias</td></tr>
-          <tr><td>Registro do teste grátis (e-mail normalizado e identificador do aparelho)</td><td>Mantido mesmo após a exclusão da conta, só para impedir que o teste grátis seja usado de novo</td></tr>
+          <tr><td>Registro do test drive / teste grátis (e-mail normalizado e identificador do aparelho)</td><td>Mantido mesmo após a exclusão da conta, só para impedir que seja usado de novo</td></tr>
         </tbody>
       </table>
     </div>
